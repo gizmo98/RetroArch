@@ -103,6 +103,7 @@ fi
 if [ "$HAVE_EGL" != "no" -a "$OS" != 'Win32' ]; then
    if [ "$HAVE_VIDEOCORE" = "yes" ]; then
       HAVE_EGL='yes'
+      EGL_LIBS=-lbrcmEGL
    else
       check_pkgconf EGL egl
       # some systems have EGL libs, but no pkgconfig
