@@ -101,13 +101,17 @@ if [ "$HAVE_SSE" = "yes" ]; then
 fi
 
 if [ "$HAVE_EGL" != "no" -a "$OS" != 'Win32' ]; then
-   check_pkgconf EGL egl
-   # some systems have EGL libs, but no pkgconfig
-   if [ "$HAVE_EGL" = "no" ]; then
-      HAVE_EGL=auto && check_lib EGL "-lEGL $EXTRA_GL_LIBS"
-      [ "$HAVE_EGL" = "yes" ] && EGL_LIBS=-lEGL
+   if [ "$HAVE_VIDEOCORE" = "yes" ]; then
+      HAVE_EGL='yes'
    else
-      EGL_LIBS="$EGL_LIBS $EXTRA_GL_LIBS"
+      check_pkgconf EGL egl
+      # some systems have EGL libs, but no pkgconfig
+      if [ "$HAVE_EGL" = "no" ]; then
+         HAVE_EGL=auto && check_lib EGL "-lEGL $EXTRA_GL_LIBS"
+         [ "$HAVE_EGL" = "yes" ] && EGL_LIBS=-lEGL
+      else
+         EGL_LIBS="$EGL_LIBS $EXTRA_GL_LIBS"
+      fi
    fi
 fi
 
